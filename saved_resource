@@ -1,0 +1,237 @@
+
+
+(function(globals) {
+
+  var django = globals.django || (globals.django = {});
+
+  
+  django.pluralidx = function(n) {
+    var v=(n != 1);
+    if (typeof(v) == 'boolean') {
+      return v ? 1 : 0;
+    } else {
+      return v;
+    }
+  };
+  
+
+  /* gettext library */
+
+  django.catalog = django.catalog || {};
+  
+  var newcatalog = {
+    " - 400 Bad Request. Server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).": " - 400 Bad Request. Server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing).",
+    " - 401 Unauthorized. Request was not sent with the proper authentication credentials.": " - 401 Unauthorized. Request was not sent with the proper authentication credentials.",
+    " - 403 Forbidden. This is generally related to permission rules on your server. Contact the system administrator for more information regarding this error message.": " - 403 Forbidden. This is generally related to permission rules on your server. Contact the system administrator for more information regarding this error message.",
+    " - 404 Not Found. Origin server was unable or unwilling to find the resource requested.": " - 404 Not Found. Origin server was unable or unwilling to find the resource requested.",
+    " - 405 Method Not Allowed. Origin server is aware of the requested resource, but the request method used is not supported.": " - 405 Method Not Allowed. Origin server is aware of the requested resource, but the request method used is not supported.",
+    " - 406 Not Acceptable. Resource is not available at the origin that adheres to negotiation headers that were  set prior (e.g. via 'Accept-Charset' and 'Accept-Language' headers).": " - 406 Not Acceptable. Resource is not available at the origin that adheres to negotiation headers that were  set prior (e.g. via 'Accept-Charset' and 'Accept-Language' headers).",
+    " - 407 Authentication Required. The client did not send the required authentication with the request.": " - 407 Authentication Required. The client did not send the required authentication with the request.",
+    " - 408 Request Timeout. The origin server did not receive the complete request in what it considers a reasonable time.": " - 408 Request Timeout. The origin server did not receive the complete request in what it considers a reasonable time.",
+    " - 409 Conflict. The request did not complete because of a conflict with the current state of the resource. Typically happens on a PUT request where multiple clients are attempting to edit the same resource.": " - 409 Conflict. The request did not complete because of a conflict with the current state of the resource. Typically happens on a PUT request where multiple clients are attempting to edit the same resource.",
+    " - 410 Gone. The resource requested is permanently missing at the origin.": " - 410 Gone. The resource requested is permanently missing at the origin.",
+    " - 411 Length Required. Client did not define the 'Content-Length' of the request body in the headers and this is required to obtain the resource.": " - 411 Length Required. Client did not define the 'Content-Length' of the request body in the headers and this is required to obtain the resource.",
+    " - 412 Precondition Failed. Server denies the request because the resource failed to meet the conditions specified by the client.": " - 412 Precondition Failed. Server denies the request because the resource failed to meet the conditions specified by the client.",
+    " - 413 Payload Too Large. Refusal from the server to process the request because the payload sent from the client is larger than the server wished to accept. Server has the optional to close the connection.": " - 413 Payload Too Large. Refusal from the server to process the request because the payload sent from the client is larger than the server wished to accept. Server has the optional to close the connection.",
+    " - 414 URI Too Long. Refusal from the server that the URI was too long to be processed. For example, if a client is attempting a GET request with an unusually long URI after a POST, this could be seen as a security risk and a 414 gets generated.": " - 414 URI Too Long. Refusal from the server that the URI was too long to be processed. For example, if a client is attempting a GET request with an unusually long URI after a POST, this could be seen as a security risk and a 414 gets generated.",
+    " - 415 Unsupported Media Type. Refusal from the server to process the format of the current payload. One way to identify and fix this issue would be to look at the 'Content-Type' or 'Content-Encoding' headers sent in the client\u2019s request.": " - 415 Unsupported Media Type. Refusal from the server to process the format of the current payload. One way to identify and fix this issue would be to look at the 'Content-Type' or 'Content-Encoding' headers sent in the client\u2019s request.",
+    " - 417 Expectation Failed. Failure of server to meet the requirements specified in the 'Expect' header of the client\u2019s request.": " - 417 Expectation Failed. Failure of server to meet the requirements specified in the 'Expect' header of the client\u2019s request.",
+    " - 429 Too Many Requests. Client has sent too many requests in the specified amount of time according to the server.": " - 429 Too Many Requests. Client has sent too many requests in the specified amount of time according to the server.",
+    " - 499 Client Close Request. Nginx specific response code to indicate when the connection has been closed by the client while the server is still processing its request, making server unable to send a status code back.": " - 499 Client Close Request. Nginx specific response code to indicate when the connection has been closed by the client while the server is still processing its request, making server unable to send a status code back.",
+    " - 500 Internal Server Error. This error indicates that the server has encountered an unexpected condition. This often occurs when an application request cannot be fulfilled due to the application being configured incorrectly on the server.": " - 500 Internal Server Error. This error indicates that the server has encountered an unexpected condition. This often occurs when an application request cannot be fulfilled due to the application being configured incorrectly on the server.",
+    " - 501 Not Implemented. This error indicates that the HTTP method sent by the client is not supported by the server. This is most often caused by the server being out of date. It is a very rare error and generally requires that the web server be updated.": " - 501 Not Implemented. This error indicates that the HTTP method sent by the client is not supported by the server. This is most often caused by the server being out of date. It is a very rare error and generally requires that the web server be updated.",
+    " - 502 Bad Gateway. This error is usually due to improperly configured proxy servers. The first step in resolving the issue is to clear the client's cache.": " - 502 Bad Gateway. This error is usually due to improperly configured proxy servers. The first step in resolving the issue is to clear the client's cache.",
+    " - 503 Service Unavailable. This error occurs when the server is unable to handle requests due to a temporary overload or due to the server being temporarily closed for maintenance. The error indicates that the server will only temporarily be down.": " - 503 Service Unavailable. This error occurs when the server is unable to handle requests due to a temporary overload or due to the server being temporarily closed for maintenance. The error indicates that the server will only temporarily be down.",
+    " - 504 Gateway Timeout. GeoNode lost the connection with GeoServer or DB due to a connection timeout. Consider using the management commands to import data!": " - 504 Gateway Timeout. GeoNode lost the connection with GeoServer or DB due to a connection timeout. Consider using the management commands to import data!",
+    " - 505 HTTP Version Not Supported. This error occurs when the server refuses to support the HTTP protocol that has been specified by the client computer. This can be caused by the protocol not being specified properly by the client computer; for example, if an invalid version number has been specified.": " - 505 HTTP Version Not Supported. This error occurs when the server refuses to support the HTTP protocol that has been specified by the client computer. This can be caused by the protocol not being specified properly by the client computer; for example, if an invalid version number has been specified.",
+    " - 506 Variant Also Negotiates. This error indicates that the server is not properly configured. Contact the system administrator to resolve this issue.": " - 506 Variant Also Negotiates. This error indicates that the server is not properly configured. Contact the system administrator to resolve this issue.",
+    " - 507 Insufficient Storage. This error indicates that the server is out of free memory. This is most likely to occur when an application that is being requested cannot allocate the necessary system resources to run. To resolve the issue, the server's hard disk may need to be cleaned of any unnecessary documents to free up more hard disk space, its memory may need to be expanded, or it may simply need to be restarted. Contact the system administrator for more information regarding this error message.": " - 507 Insufficient Storage. This error indicates that the server is out of free memory. This is most likely to occur when an application that is being requested cannot allocate the necessary system resources to run. To resolve the issue, the server's hard disk may need to be cleaned of any unnecessary documents to free up more hard disk space, its memory may need to be expanded, or it may simply need to be restarted. Contact the system administrator for more information regarding this error message.",
+    " - 509 Bandwidth Limit Exceeded. This error occurs when the bandwidth limit imposed by the system administrator has been reached. The only fix for this issue is to wait until the limit is reset in the following cycle. Consult the system administrator for information about acquiring more bandwidth.": " - 509 Bandwidth Limit Exceeded. This error occurs when the bandwidth limit imposed by the system administrator has been reached. The only fix for this issue is to wait until the limit is reset in the following cycle. Consult the system administrator for information about acquiring more bandwidth.",
+    " - 510 Not Extended. This error occurs when an extension attached to the HTTP request is not supported by the web server. To resolve the issue, you may need to update the server.": " - 510 Not Extended. This error occurs when an extension attached to the HTTP request is not supported by the web server. To resolve the issue, you may need to update the server.",
+    " Error Code. Contact the system administrator for more information regarding this error message.": " Error Code. Contact the system administrator for more information regarding this error message.",
+    " Info": " Info",
+    "%(sel)s of %(cnt)s selected": [
+      "94d7ef36d54e81afde607d8fd121772b_pl_0",
+      "94d7ef36d54e81afde607d8fd121772b_pl_1"
+    ],
+    "<br>": "<br>",
+    "<br>Bad request or URL not found.": "<br>Bad request or URL not found.",
+    "<br>Please check your network connection. In case of Layer Upload make sure GeoServer is running and accepting connections.": "<br>Please check your network connection. In case of Layer Upload make sure GeoServer is running and accepting connections.",
+    "<br>Unknown.": "<br>Unknown.",
+    "A temporal dimension may be added to this Layer.": "A temporal dimension may be added to this Layer.",
+    "ASCII Text File": "ASCII Text File",
+    "Available %s": "Available %s",
+    "CADRG-Global Navigation Chart": "CADRG-Global Navigation Chart",
+    "CADRG-Jet Navigation Chart": "CADRG-Jet Navigation Chart",
+    "CADRG-Joint Operations Graphic": "CADRG-Joint Operations Graphic",
+    "CADRG-Operational Navigation Chart": "CADRG-Operational Navigation Chart",
+    "CADRG-Tactical Pilotage Chart": "CADRG-Tactical Pilotage Chart",
+    "CADRG-Topographic Line Map 100K": "CADRG-Topographic Line Map 100K",
+    "CADRG-Topographic Line Map 50K": "CADRG-Topographic Line Map 50K",
+    "Choose": "Choose",
+    "Choose all": "Choose all",
+    "Chosen %s": "Chosen %s",
+    "Click to choose all %s at once.": "Click to choose all %s at once.",
+    "Click to remove all chosen %s at once.": "Click to remove all chosen %s at once.",
+    "Comma Separated Value": "Comma Separated Value",
+    "Controlled Image Base-1 Meter": "Controlled Image Base-1 Meter",
+    "Controlled Image Base-10 Meter": "Controlled Image Base-10 Meter",
+    "Controlled Image Base-5 Meter": "Controlled Image Base-5 Meter",
+    "ERDAS Imagine": "ERDAS Imagine",
+    "ESRI Shapefile": "ESRI Shapefile",
+    "Edit Metadata": "Edit Metadata",
+    "Files are ready to be ingested!": "Files are ready to be ingested!",
+    "Filter": "Filter",
+    "GIF": "GIF",
+    "GeoJSON": "GeoJSON",
+    "GeoTIFF": "GeoTIFF",
+    "Google Earth KML": "Google Earth KML",
+    "Google Earth KML with a GroundOverlay": "Google Earth KML with a GroundOverlay",
+    "Google Earth KMZ": "Google Earth KMZ",
+    "JPEG": "JPEG",
+    "JPEG2000": "JPEG2000",
+    "Layer files uploaded, configuring in GeoServer": "Layer files uploaded, configuring in GeoServer",
+    "Manage Styles": "Manage Styles",
+    "Missing a %s file, which is required": "Missing a %s file, which is required",
+    "MrSID-Multi-resolution Seamless Image Database": "MrSID-Multi-resolution Seamless Image Database",
+    "National Imagery Transmission Format": "National Imagery Transmission Format",
+    "PNG": "PNG",
+    "Performing Final GeoServer Config Step": "Performing Final GeoServer Config Step",
+    "Performing GeoServer Config Step": "Performing GeoServer Config Step",
+    "Remove": "Remove",
+    "Remove all": "Remove all",
+    "STORE_UPDATED": "STORE_UPDATED",
+    "Style Layer Descriptor": "Style Layer Descriptor",
+    "The column %1 was renamed to %2 <br/>": "The column %1 was renamed to %2 <br/>",
+    "The file %s is an unsupported file type, please select another file.": "The file %s is an unsupported file type, please select another file.",
+    "This is the list of available %s. You may choose some by selecting them in the box below and then clicking the \"Choose\" arrow between the two boxes.": "This is the list of available %s. You may choose some by selecting them in the box below and then clicking the \"Choose\" arrow between the two boxes.",
+    "This is the list of chosen %s. You may remove some by selecting them in the box below and then clicking the \"Remove\" arrow between the two boxes.": "This is the list of chosen %s. You may remove some by selecting them in the box below and then clicking the \"Remove\" arrow between the two boxes.",
+    "Type into this box to filter down the list of available %s.": "Type into this box to filter down the list of available %s.",
+    "Unexpected Error": "Unexpected Error",
+    "Unexpected error!": "Unexpected error!",
+    "Upload Metadata": "Upload Metadata",
+    "Upload SLD": "Upload SLD",
+    "XML Metadata File": "XML Metadata File",
+    "You are trying to upload an incomplete set of files or not all mandatory options have been validated.\n\nPlease check for errors in the form!": "You are trying to upload an incomplete set of files or not all mandatory options have been validated.\n\nPlease check for errors in the form!",
+    "You have selected an action, and you haven't made any changes on individual fields. You're probably looking for the Go button rather than the Save button.": "You have selected an action, and you haven't made any changes on individual fields. You're probably looking for the Go button rather than the Save button.",
+    "You have selected an action, but you haven't saved your changes to individual fields yet. Please click OK to save. You'll need to re-run the action.": "You have selected an action, but you haven't saved your changes to individual fields yet. Please click OK to save. You'll need to re-run the action.",
+    "You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost.": "You have unsaved changes on individual editable fields. If you run an action, your unsaved changes will be lost.",
+    "You need to specify more information in order to complete your upload": "You need to specify more information in order to complete your upload",
+    "Your ": "Your ",
+    "Zip Archive": "Zip Archive"
+  };
+  for (var key in newcatalog) {
+    django.catalog[key] = newcatalog[key];
+  }
+  
+
+  if (!django.jsi18n_initialized) {
+    django.gettext = function(msgid) {
+      var value = django.catalog[msgid];
+      if (typeof(value) == 'undefined') {
+        return msgid;
+      } else {
+        return (typeof(value) == 'string') ? value : value[0];
+      }
+    };
+
+    django.ngettext = function(singular, plural, count) {
+      var value = django.catalog[singular];
+      if (typeof(value) == 'undefined') {
+        return (count == 1) ? singular : plural;
+      } else {
+        return value.constructor === Array ? value[django.pluralidx(count)] : value;
+      }
+    };
+
+    django.gettext_noop = function(msgid) { return msgid; };
+
+    django.pgettext = function(context, msgid) {
+      var value = django.gettext(context + '\x04' + msgid);
+      if (value.indexOf('\x04') != -1) {
+        value = msgid;
+      }
+      return value;
+    };
+
+    django.npgettext = function(context, singular, plural, count) {
+      var value = django.ngettext(context + '\x04' + singular, context + '\x04' + plural, count);
+      if (value.indexOf('\x04') != -1) {
+        value = django.ngettext(singular, plural, count);
+      }
+      return value;
+    };
+
+    django.interpolate = function(fmt, obj, named) {
+      if (named) {
+        return fmt.replace(/%\(\w+\)s/g, function(match){return String(obj[match.slice(2,-2)])});
+      } else {
+        return fmt.replace(/%s/g, function(match){return String(obj.shift())});
+      }
+    };
+
+
+    /* formatting library */
+
+    django.formats = {
+    "DATETIME_FORMAT": "N j, Y, P",
+    "DATETIME_INPUT_FORMATS": [
+      "%Y-%m-%d %H:%M:%S",
+      "%Y-%m-%d %H:%M:%S.%f",
+      "%Y-%m-%d %H:%M",
+      "%Y-%m-%d",
+      "%m/%d/%Y %H:%M:%S",
+      "%m/%d/%Y %H:%M:%S.%f",
+      "%m/%d/%Y %H:%M",
+      "%m/%d/%Y",
+      "%m/%d/%y %H:%M:%S",
+      "%m/%d/%y %H:%M:%S.%f",
+      "%m/%d/%y %H:%M",
+      "%m/%d/%y"
+    ],
+    "DATE_FORMAT": "N j, Y",
+    "DATE_INPUT_FORMATS": [
+      "%Y-%m-%d",
+      "%m/%d/%Y",
+      "%m/%d/%y"
+    ],
+    "DECIMAL_SEPARATOR": ".",
+    "FIRST_DAY_OF_WEEK": 0,
+    "MONTH_DAY_FORMAT": "F j",
+    "NUMBER_GROUPING": 3,
+    "SHORT_DATETIME_FORMAT": "m/d/Y P",
+    "SHORT_DATE_FORMAT": "m/d/Y",
+    "THOUSAND_SEPARATOR": ",",
+    "TIME_FORMAT": "P",
+    "TIME_INPUT_FORMATS": [
+      "%H:%M:%S",
+      "%H:%M:%S.%f",
+      "%H:%M"
+    ],
+    "YEAR_MONTH_FORMAT": "F Y"
+  };
+
+    django.get_format = function(format_type) {
+      var value = django.formats[format_type];
+      if (typeof(value) == 'undefined') {
+        return format_type;
+      } else {
+        return value;
+      }
+    };
+
+    /* add to global namespace */
+    globals.pluralidx = django.pluralidx;
+    globals.gettext = django.gettext;
+    globals.ngettext = django.ngettext;
+    globals.gettext_noop = django.gettext_noop;
+    globals.pgettext = django.pgettext;
+    globals.npgettext = django.npgettext;
+    globals.interpolate = django.interpolate;
+    globals.get_format = django.get_format;
+
+    django.jsi18n_initialized = true;
+  }
+
+}(this));
+
